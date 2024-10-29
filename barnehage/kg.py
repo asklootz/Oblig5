@@ -41,6 +41,7 @@ def commit():
     commit_all()
     return render_template('commit.html')
 
+app.run()
 
 
 

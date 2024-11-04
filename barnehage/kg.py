@@ -6,6 +6,13 @@ from flask import redirect
 from flask import session
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
 from kgcontroller import (form_to_object_soknad, insert_soknad, commit_all, select_alle_barnehager)
+import os
+import shutil
+
+#Resetter data-arket
+#Virker kun en gang
+#os.remove("kgdata.xlsx")
+#os.popen("copy /Oblig5/kgdata.xlsx kgdata.xlsx")
 
 app = Flask(__name__)
 app.secret_key = 'BAD_SECRET_KEY' # nødvendig for session

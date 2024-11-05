@@ -227,3 +227,12 @@ def test_df_to_object_list():
                              r['barnehage_antall_plasser'],
                              r['barnehage_ledige_plasser']),
          axis=1).to_list()[0].barnehage_navn == "Sunshine Preschool"
+    
+def get_all_data_as_html():
+    """Returnerer alle data definert i databasen kgdata.xlsx som HTML-tabeller."""
+    # Read the Excel file
+    df_dict = pd.read_excel('kgdata.xlsx', sheet_name=None)
+    
+    # Convert each DataFrame to an HTML table
+    html_tables = {sheet_name: df.to_html(index=False) for sheet_name, df in df_dict.items()}
+    return html_tables

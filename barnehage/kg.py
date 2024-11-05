@@ -6,7 +6,7 @@ from flask import redirect
 from flask import session
 import pandas as pd
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
-from kgcontroller import (form_to_object_soknad, insert_soknad, commit_all, select_alle_barnehager, select_alle_soknader, update_barnehage_plasser)
+from kgcontroller import (form_to_object_soknad, get_all_data_as_html, insert_soknad, commit_all, select_alle_barnehager, select_alle_soknader, update_barnehage_plasser)
 import os
 import shutil
 
@@ -55,7 +55,12 @@ def svar():
 @app.route('/commit')
 def commit():
     commit_all()
-    return render_template('commit.html')
+    """information_barnehager = select_alle_barnehager()
+    
+    informarion_soknader = select_alle_soknader()
+    return render_template('commit.html', data = information_barnehager and informarion_soknader)"""
+    data = get_all_data_as_html()
+    return render_template('commit.html', tables=data)
 
 @app.route('/soknader')
 def soknader():

@@ -2,4 +2,68 @@
 
 {% block content %}
 <p>Alle endringene er skrevet til dbexcel!</p>
+
+<!---<h1>Barnehager</h1><br>
+<table border=1>
+	<tr>
+		<th>Id</th>
+		<th>Navn</th>
+		<th>Antall plasser</th>
+		<th>Antall ledige plasser</th>
+	</tr>
+	{% for elt1 in data %}
+	<tr>
+		<td>{{ elt1.barnehage_id }}</td>
+		<td>{{ elt1.barnehage_navn }}</td>
+		<td>{{ elt1.barnehage_antall_plasser }}</td>	
+		<td>{{ elt1.barnehage_ledige_plasser }}</td>
+	</tr>
+	{% endfor %}
+</table><br>
+
+<h1>Søknader</h1><br>
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Foresatt 1</th>
+        <th>Foresatt 2</th>
+        <th>Barn</th>
+        <th>Barnevern</th>
+        <th>Fortrinnsrett Sykdom Familie</th>
+        <th>Fortrinnsrett Sykdom Barn</th>
+        <th>Fortrinnsrett Annet</th>
+        <th>Barnehage</th>
+        <th>Søsken I Barnehagen</th>
+        <th>Oppstartsdato</th>
+        <th>Brutton Inntekt Familie</th>
+        <th>Svar på tilbud</th>
+    </tr>
+    {% for elt in data %}
+    <tr>
+        <td>{{ elt.sok_id }}</td>
+        <td>{{ elt.foresatt_1 }}</td>
+        <td>{{ elt.foresatt_2}}</td>
+        <td>{{ elt.barn_1}}</td>
+        <td>{{ elt.fr_barnevern }}</td>
+        <td>{{ elt.fr_sykd_familie }}</td>
+        <td>{{ elt.fr_sykd_barn }}</td>
+        <td>{{ elt.fr_annet }}</td>
+        <td>{{ elt.barnehager_prioritert }}</td>
+        <td>{{ elt.sosken__i_barnehagen }}</td>
+        <td>{{ elt.tidspunk_oppstart }}</td>
+        <td>{{ elt.brutto_inntekt }}</td>
+        <td>{{ elt.svar }}</td>
+    </tr>
+    {% endfor %}
+</table>--->
+
+<html>
+<body>
+    {% for sheet_name, table in tables.items() %}
+        <h2>{{ sheet_name }}</h2>
+        {{ table | safe }}
+    {% endfor %}
+</body>
+</html>
+
 {% endblock %}

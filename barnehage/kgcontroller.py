@@ -236,3 +236,8 @@ def get_all_data_as_html():
     # Convert each DataFrame to an HTML table
     html_tables = {sheet_name: df.to_html(index=False) for sheet_name, df in df_dict.items()}
     return html_tables
+
+def decrease_barnehage_plasser(barnehage_navn):
+    """Reduserer antall ledige plasser for en barnehage."""
+    global barnehage
+    barnehage.loc[barnehage['barnehage_navn'] == barnehage_navn, 'barnehage_ledige_plasser'] -= 1

@@ -6,7 +6,7 @@ from flask import redirect
 from flask import session
 import pandas as pd
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
-from kgcontroller import (form_to_object_soknad, get_all_data_as_html, insert_soknad, commit_all, select_alle_barnehager, select_alle_soknader, update_barnehage_plasser)
+from kgcontroller import (decrease_barnehage_plasser, form_to_object_soknad, get_all_data_as_html, insert_soknad, commit_all, select_alle_barnehager, select_alle_soknader, update_barnehage_plasser)
 import os
 import shutil
 
@@ -38,6 +38,8 @@ def behandle():
             if barnehage.barnehage_navn == sd['liste_over_barnehager_prioritert_5']:
                 if barnehage.barnehage_ledige_plasser > 0:
                     svar = 'TILBUD'
+                    decrease_barnehage_plasser(barnehage.barnehage_navn)
+                    
         log = insert_soknad(form_to_object_soknad(sd, svar))
         print(log)
         session['information'] = sd

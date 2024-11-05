@@ -55,6 +55,10 @@ def insert_barn(b):
     
     return barn
 
+def remove_soknad(soknad_id):
+    pd.DataFrame.drop(soknad_id, axis=0, inplace=True)
+
+
 def insert_soknad(s):
     """[sok_id, foresatt_1, foresatt_2, barn_1, fr_barnevern, fr_sykd_familie,
     fr_sykd_barn, fr_annet, barnehager_prioritert, sosken__i_barnehagen,
@@ -81,7 +85,8 @@ def insert_soknad(s):
                                      s.barnehager_prioritert,
                                      s.sosken__i_barnehagen,
                                      s.tidspunkt_oppstart,
-                                     s.brutto_inntekt]],
+                                     s.brutto_inntekt,
+                                     s.svar]],
                 columns=soknad.columns), soknad], ignore_index=True)
     
     return soknad
@@ -95,6 +100,23 @@ def select_alle_barnehager():
                              r['barnehage_navn'],
                              r['barnehage_antall_plasser'],
                              r['barnehage_ledige_plasser']),
+         axis=1).to_list()
+
+def select_alle_soknader():
+    """Returnerer en liste med alle søknader definert i databasen dbexcel."""
+    return soknad.apply(lambda r: Soknad(r['sok_id'],
+                             r['foresatt_1'],
+                             r['foresatt_2'],
+                             r['barn_1'],
+                             r['fr_barnevern'],
+                             r['fr_sykd_familie'],
+                             r['fr_sykd_barn'],
+                             r['fr_annet'],
+                             r['barnehager_prioritert'],
+                             r['sosken__i_barnehagen'],
+                             r['tidspunkt_oppstart'],
+                             r['brutto_inntekt'],
+                             r['svar']),
          axis=1).to_list()
 
 def select_foresatt(f_navn):
@@ -120,10 +142,11 @@ def select_barn(b_pnr):
 # ------------------
 # Update
 
-
 # ------------------
 # Delete
-
+def update_barnehage_plasser():
+    with pd.ExcelWriter('kgdata.xlsx', mode='a', if_sheet_exists='replace') as writer:  
+        barnehage.to_excel(writer, sheet_name='barnehage')
 
 # ----- Persistent lagring ------
 def commit_all():
@@ -135,7 +158,7 @@ def commit_all():
         soknad.to_excel(writer, sheet_name='soknad')
         
 # --- Diverse hjelpefunksjoner ---
-def form_to_object_soknad(sd):
+def form_to_object_soknad(sd, svar):
     """sd - formdata for soknad, type: ImmutableMultiDict fra werkzeug.datastructures
 Eksempel:
 ImmutableMultiDict([('navn_forelder_1', 'asdf'),
@@ -192,7 +215,8 @@ ImmutableMultiDict([('navn_forelder_1', 'asdf'),
                    sd.get('liste_over_barnehager_prioritert_5'),
                    sd.get('har_sosken_som_gaar_i_barnehagen'),
                    sd.get('tidspunkt_for_oppstart'),
-                   sd.get('brutto_inntekt_husholdning'))
+                   sd.get('brutto_inntekt_husholdning'),
+                    svar)
     
     return sok_1
 

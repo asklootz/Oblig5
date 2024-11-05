@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 <!-- Skriv inn din kode her for å returnere svar for bruksscenario om svar på en søknad. --> 
+
 {% block content %}
+<h1>Du har fått {{svar}} på søknaden.</h1>
 <table border=1>
 	{% for k,v in data.items() %}
 	<tr>

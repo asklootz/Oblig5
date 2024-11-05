@@ -36,7 +36,8 @@ def initiate_db(db_name):
                        'barnehager_prioritert',
                        'sosken__i_barnehagen',
                        'tidspunkt_oppstart',
-                       'brutto_inntekt']
+                       'brutto_inntekt',
+                       'svar']
     
     forelder = pd.DataFrame(columns = kolonner_forelder)
     barnehage = pd.DataFrame(barnehage_liste, columns = kolonner_barnehage)

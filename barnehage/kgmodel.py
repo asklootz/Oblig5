@@ -61,6 +61,7 @@ class Soknad:
     sosken__i_barnehagen: str
     tidspunkt_oppstart: str
     brutto_inntekt: int
+    svar: str
     
     
 

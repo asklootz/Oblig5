@@ -4,8 +4,9 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import session
+import pandas as pd
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
-from kgcontroller import (form_to_object_soknad, insert_soknad, commit_all, select_alle_barnehager)
+from kgcontroller import (form_to_object_soknad, insert_soknad, commit_all, select_alle_barnehager, select_alle_soknader, update_barnehage_plasser)
 import os
 import shutil
 
@@ -31,22 +32,36 @@ def behandle():
     if request.method == 'POST':
         sd = request.form
         print(sd)
-        log = insert_soknad(form_to_object_soknad(sd))
+        alle_barnehager = select_alle_barnehager()
+        svar = 'AVSLAG'
+        for barnehage in alle_barnehager:
+            if barnehage.barnehage_navn == sd['liste_over_barnehager_prioritert_5']:
+                if barnehage.barnehage_ledige_plasser > 0:
+                    svar = 'TILBUD'
+        log = insert_soknad(form_to_object_soknad(sd, svar))
         print(log)
         session['information'] = sd
+        session['svar'] = svar
         return redirect(url_for('svar')) #[1]
+        return render_template('soknad.html', error="Barnehagen er full")
     else:
         return render_template('soknad.html')
-
+            
 @app.route('/svar')
 def svar():
     information = session['information']
-    return render_template('svar.html', data=information)
+    return render_template('svar.html', data=information, svar=session['svar'])
 
 @app.route('/commit')
 def commit():
     commit_all()
     return render_template('commit.html')
+
+@app.route('/soknader')
+def soknader():
+    information = select_alle_soknader()
+    return render_template('soknader.html', data = information)
+    
 
 app.run()
 

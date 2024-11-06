@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+<html
+<h1>Statistikk</h1>
+<form action="{{ url_for('statistikk') }}" method="post" target="_blank">
+<select id="data_select" name="data_select">
+    {% for item in row_data %}
+        <option value="{{ item }}">{{ item }}</option>
+    {% endfor %}
+</select><br>
+
+<!-- Other form fields -->
+
+<input type="submit" value="Submit">
+</form>
+</html>
+
+{% endblock %}

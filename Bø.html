@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-d2c9afbca29cf0d03e5180a47bdd717c"}, "mark": {"type": "bar", "invalid": "show"}, "encoding": {"x": {"field": "Year", "type": "nominal"}, "y": {"field": "Percentage", "type": "nominal"}}, "title": "B\u00f8", "width": 400, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-d2c9afbca29cf0d03e5180a47bdd717c": [{"Year": "kom", "Percentage": "B\u00f8"}, {"Year": "2015", "Percentage": 85.2}, {"Year": "2016", "Percentage": 95.0}, {"Year": "2017", "Percentage": 97.9}, {"Year": "2018", "Percentage": 97.4}, {"Year": "2019", "Percentage": 93.2}, {"Year": "2020", "Percentage": 86.0}, {"Year": "2021", "Percentage": 92.1}, {"Year": "2022", "Percentage": 86.8}, {"Year": "2023", "Percentage": 97.1}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

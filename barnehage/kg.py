@@ -5,8 +5,10 @@ from flask import request
 from flask import redirect
 from flask import session
 import pandas as pd
+import altair as alt
+from dbexcel import *
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
-from kgcontroller import (decrease_barnehage_plasser, form_to_object_soknad, get_all_data_as_html, insert_soknad, commit_all, select_alle_barnehager, select_alle_soknader, update_barnehage_plasser)
+from kgcontroller import (create_diagram, decrease_barnehage_plasser, form_to_object_soknad, get_all_data_as_html, insert_soknad, commit_all, select_alle_barnehager, select_alle_soknader, update_barnehage_plasser)
 import os
 import shutil
 
@@ -68,7 +70,22 @@ def commit():
 def soknader():
     information = select_alle_soknader()
     return render_template('soknader.html', data = information)
-    
+
+
+@app.route('/statistikk', methods=['GET', 'POST'])
+def statistikk():
+    if request.method == 'POST':
+        selected_value = request.form['data_select']
+        print(selected_value)
+        create_diagram(selected_value)
+        return redirect(url_for('statistikk')) and (f'{selected_value}.html')
+    else:
+        row_data = df4['kom'].to_list()
+        return render_template('statistikk.html', row_data=row_data)
+
+
+
+
 
 app.run()
 

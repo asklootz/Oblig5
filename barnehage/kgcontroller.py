@@ -3,7 +3,10 @@ import pandas as pd
 import numpy as np
 from dbexcel import *
 from kgmodel import *
-
+import altair as alt
+import os
+import os.path
+import webbrowser
 
 # CRUD metoder
 
@@ -134,8 +137,6 @@ def select_barn(b_pnr):
         return np.nan
     else:
         return series.iloc[0] # returnerer kun det første elementet i series
-    
-    
 # --- Skriv kode for select_soknad her
 
 
@@ -241,3 +242,71 @@ def decrease_barnehage_plasser(barnehage_navn):
     """Reduserer antall ledige plasser for en barnehage."""
     global barnehage
     barnehage.loc[barnehage['barnehage_navn'] == barnehage_navn, 'barnehage_ledige_plasser'] -= 1
+
+def create_diagram(selected_value):
+    if os.path.exists(f'{selected_value}.html'):
+        os.remove(f'{selected_value}.html')
+        print("Old chart removed.")
+
+        """Creates a diagram based on the selected value."""
+        print(f"Selected value: {selected_value}")
+        
+        
+        # Extract data for the selected value
+        res_df = df4[df4['kom'] == selected_value]
+        
+        #print(res_df)
+        
+        # Check if the DataFrame is empty
+        if res_df.empty:
+            print("No data found for the selected value.")
+            return
+        
+        # Melt the DataFrame for Altair
+        res_df = res_df.melt(var_name="Year", value_name="Percentage")
+        #print(res_df)
+
+        # Create the Altair chart
+        chart = alt.Chart(res_df, title=selected_value, width=400).mark_bar(invalid="show").encode(
+            alt.Y("Percentage"),
+            alt.X("Year")
+        )
+
+        # Save the chart
+        chart.save(f'{selected_value}.html')
+        webbrowser.open(f'{selected_value}.html')
+    
+    else:
+        """Creates a diagram based on the selected value."""
+        print(f"Selected value: {selected_value}")
+        
+        
+        # Extract data for the selected value
+        res_df = df4[df4['kom'] == selected_value]
+        
+        #print(res_df)
+        
+        # Check if the DataFrame is empty
+        if res_df.empty:
+            print("No data found for the selected value.")
+            return
+        
+        # Melt the DataFrame for Altair
+        res_df = res_df.melt(var_name="Year", value_name="Percentage")
+        #print(res_df)
+
+        # Create the Altair chart
+        chart = alt.Chart(res_df, title=selected_value, width=400).mark_bar(invalid="show").encode(
+            alt.Y("Percentage"),
+            alt.X("Year")
+        )
+
+        # Save the chart
+        chart.save(f'{selected_value}.html')
+        webbrowser.open(f'{selected_value}.html')
+    
+
+
+
+
+
